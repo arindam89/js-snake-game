@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake Game</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="game-container">
+        <h1>Snake Game</h1>
+        <div id="start-screen" class="screen">
+            <h2>Welcome to Snake Game</h2>
+            <p>Use arrow keys to control the snake.</p>
+            <p>Eat the food to grow and earn points.</p>
+            <button id="start-button">Start Game</button>
+        </div>
+        <canvas id="gameCanvas" width="400" height="400"></canvas>
+        <div id="score">Score: 0</div>
+        <div id="game-over-screen" class="screen">
+            <h2>Game Over</h2>
+            <p>Your score: <span id="final-score"></span></p>
+            <button id="restart-button">Restart Game</button>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/game.js') }}"></script>
+</body>
+</html>
