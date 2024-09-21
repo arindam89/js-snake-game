@@ -12,12 +12,16 @@ let dx = 0;
 let dy = 0;
 let score = 0;
 let gameRunning = false;
+let level = 1;
+let speed = 100;
 
 const startScreen = document.getElementById('start-screen');
 const gameOverScreen = document.getElementById('game-over-screen');
 const startButton = document.getElementById('start-button');
 const restartButton = document.getElementById('restart-button');
 const finalScoreSpan = document.getElementById('final-score');
+const levelDisplay = document.getElementById('level');
+const scoreDisplay = document.getElementById('score');
 
 startButton.addEventListener('click', startGame);
 restartButton.addEventListener('click', startGame);
@@ -27,11 +31,15 @@ function startGame() {
     dx = 0;
     dy = 0;
     score = 0;
+    level = 1;
+    speed = 100;
     generateFood();
     gameRunning = true;
-    startScreen.style.display = 'none';
-    gameOverScreen.style.display = 'none';
-    canvas.style.display = 'block';
+    startScreen.classList.add('hidden');
+    gameOverScreen.classList.add('hidden');
+    canvas.classList.remove('hidden');
+    updateScore();
+    updateLevel();
     gameLoop();
 }
 
@@ -43,9 +51,8 @@ function gameLoop() {
         drawSnake();
         drawFood();
         checkCollision();
-        updateScore();
         gameLoop();
-    }, 100);
+    }, speed);
 }
 
 function clearCanvas() {
@@ -59,7 +66,13 @@ function moveSnake() {
 
     if (head.x === food.x && head.y === food.y) {
         score++;
+        updateScore();
         generateFood();
+        if (score % 5 === 0) {
+            level++;
+            updateLevel();
+            speed = Math.max(50, speed - 10);
+        }
     } else {
         snake.pop();
     }
@@ -104,7 +117,6 @@ function generateFood() {
         x: Math.floor(Math.random() * tileCount),
         y: Math.floor(Math.random() * tileCount)
     };
-    // Ensure food doesn't spawn on the snake
     while (snake.some(segment => segment.x === food.x && segment.y === food.y)) {
         food = {
             x: Math.floor(Math.random() * tileCount),
@@ -130,12 +142,20 @@ function checkCollision() {
 function gameOver() {
     gameRunning = false;
     finalScoreSpan.textContent = score;
-    gameOverScreen.style.display = 'block';
-    canvas.style.display = 'none';
+    gameOverScreen.classList.remove('hidden');
+    canvas.classList.add('hidden');
 }
 
 function updateScore() {
-    document.getElementById('score').textContent = `Score: ${score}`;
+    scoreDisplay.textContent = `Score: ${score}`;
+    scoreDisplay.classList.add('animate-pulse');
+    setTimeout(() => scoreDisplay.classList.remove('animate-pulse'), 300);
+}
+
+function updateLevel() {
+    levelDisplay.textContent = `Level: ${level}`;
+    levelDisplay.classList.add('animate-pulse');
+    setTimeout(() => levelDisplay.classList.remove('animate-pulse'), 300);
 }
 
 document.addEventListener('keydown', (e) => {
@@ -169,5 +189,5 @@ document.addEventListener('keydown', (e) => {
 });
 
 // Show start screen initially
-startScreen.style.display = 'block';
-canvas.style.display = 'none';
+startScreen.classList.remove('hidden');
+canvas.classList.add('hidden');

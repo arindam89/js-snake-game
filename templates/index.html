@@ -4,23 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Snake Game</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div class="game-container">
-        <h1>Snake Game</h1>
-        <div id="start-screen" class="screen">
-            <h2>Welcome to Snake Game</h2>
-            <p>Use arrow keys to control the snake.</p>
-            <p>Eat the food to grow and earn points.</p>
-            <button id="start-button">Start Game</button>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="game-container text-center relative">
+        <h1 class="text-3xl font-bold mb-4 text-gray-800">Snake Game</h1>
+        <div id="start-screen" class="screen bg-white p-6 rounded-lg shadow-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
+            <h2 class="text-2xl font-semibold mb-4">Welcome to Snake Game</h2>
+            <p class="mb-2">Use arrow keys to control the snake.</p>
+            <p class="mb-2">Eat the food to grow and earn points.</p>
+            <p class="mb-4">The game gets faster as you progress!</p>
+            <button id="start-button" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition duration-300">Start Game</button>
         </div>
-        <canvas id="gameCanvas" width="400" height="400"></canvas>
-        <div id="score">Score: 0</div>
-        <div id="game-over-screen" class="screen">
-            <h2>Game Over</h2>
-            <p>Your score: <span id="final-score"></span></p>
-            <button id="restart-button">Restart Game</button>
+        <canvas id="gameCanvas" width="400" height="400" class="border-4 border-gray-800 rounded-lg"></canvas>
+        <div id="game-info" class="flex justify-between mt-4">
+            <div id="score" class="bg-blue-500 text-white px-4 py-2 rounded">Score: 0</div>
+            <div id="level" class="bg-purple-500 text-white px-4 py-2 rounded">Level: 1</div>
+        </div>
+        <div id="game-over-screen" class="screen bg-white p-6 rounded-lg shadow-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 hidden">
+            <h2 class="text-2xl font-semibold mb-4">Game Over</h2>
+            <p class="mb-4">Your score: <span id="final-score" class="font-bold"></span></p>
+            <button id="restart-button" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300">Restart Game</button>
         </div>
     </div>
     <script src="{{ url_for('static', filename='js/game.js') }}"></script>
